@@ -1,4 +1,4 @@
-# Verilog Ethernet Implementation Nexys Video 
+# Verilog Ethernet Implementation for Nexys Video board
 
 ## Introduction
 
