@@ -86,7 +86,7 @@ distclean: clean
 	vivado -nojournal -nolog -mode batch -source create_project.tcl
 
 # synthesis run
-%.runs/synth_1/%.dcp: %.xpr $(SYN_FILES_REL) $(INC_FILES_REL) $(XDC_FILES_REL)
+runs/synth_1/%.dcp: %.xpr $(SYN_FILES_REL) $(INC_FILES_REL) $(XDC_FILES_REL)
 	echo "open_project $*.xpr" > run_synth.tcl
 	echo "reset_run synth_1" >> run_synth.tcl
 	echo "launch_runs synth_1" >> run_synth.tcl
@@ -95,7 +95,7 @@ distclean: clean
 	vivado -nojournal -nolog -mode batch -source run_synth.tcl
 
 # implementation run
-%.runs/impl_1/%_routed.dcp: %.runs/synth_1/%.dcp
+runs/impl_1/%_routed.dcp: runs/synth_1/%.dcp
 	echo "open_project $*.xpr" > run_impl.tcl
 	echo "reset_run impl_1" >> run_impl.tcl
 	echo "launch_runs impl_1" >> run_impl.tcl
@@ -104,7 +104,7 @@ distclean: clean
 	vivado -nojournal -nolog -mode batch -source run_impl.tcl
 
 # bit file
-%.bit: %.runs/impl_1/%_routed.dcp
+%.bit: runs/impl_1/%_routed.dcp
 	echo "open_project $*.xpr" > generate_bit.tcl
 	echo "open_run impl_1" >> generate_bit.tcl
 	echo "write_bitstream -force $*.bit" >> generate_bit.tcl
